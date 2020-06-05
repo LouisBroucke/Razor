@@ -20,12 +20,34 @@ namespace Razor.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new Persoon { Voornaam = "Eddy", Familienaam = "Wally"});
         }
 
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [ActionName("Werknemerslijst")]
+        public IActionResult AlleWerknemers()
+        {
+            var werknemers = new List<Werknemer>();
+
+            werknemers.Add(new Werknemer
+            {
+                Voornaam = "Steven",
+                Wedde = 1000,
+                InDienst = DateTime.Today
+            });
+
+            werknemers.Add(new Werknemer
+            {
+                Voornaam = "Prosper",
+                Wedde = 2000,
+                InDienst = DateTime.Today.AddDays(2)
+            });
+
+            return View("AlleWerknemers" ,werknemers);
         }
 
         public IActionResult Palindroom(string woord)
