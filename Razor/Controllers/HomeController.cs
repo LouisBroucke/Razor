@@ -66,6 +66,34 @@ namespace Razor.Controllers
             return View();
         }
 
+        public IActionResult Vestigingen()
+        {
+            Hoofdzetel deHoofdzetel = new Hoofdzetel 
+                { 
+                Straat = "Keizerslaan", 
+                HuisNr = "11", 
+                PostCode = "1000", 
+                Gemeente = "Brussel" 
+                };
+            ViewBag.deHoofdzetel = deHoofdzetel;
+
+            List<Filiaal> deFilialen = new List<Filiaal>()
+                 {
+                 new Filiaal { ID = 1, Naam = "Antwerpen",
+                 Gebouwd = new DateTime(2003, 1, 1), Waarde = 2000000 },
+                 new Filiaal { ID = 2, Naam = "Wondelgem",
+                 Gebouwd = new DateTime(1979, 1, 1), Waarde = 2500000 },
+                 new Filiaal { ID = 3, Naam = "Haasrode",
+                 Gebouwd = new DateTime(1976, 1, 1), Waarde = 1000000 },
+                 new Filiaal { ID = 4, Naam = "Wevelgem",
+                 Gebouwd = new DateTime(1981, 1, 1), Waarde = 1600000 },
+                 new Filiaal { ID = 5, Naam = "Genk",
+                 Gebouwd = new DateTime(1990, 1, 1), Waarde = 4000000 }
+                 };
+
+            return View(deFilialen);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
