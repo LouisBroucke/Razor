@@ -1,7 +1,8 @@
-﻿<h2>Filialen</h2>
+﻿@model List<Filiaal>
+<h2>Filialen</h2>
 <ul>
     @foreach (var filiaal in Model)
     {
-        <li>@filiaal.ID @filiaal.Naam @filiaal.Gebouwd @filiaal.Waarde</li>
+        <li>@filiaal.ID @filiaal.Naam @Html.DisplayFor(m => filiaal.Gebouwd) @Html.DisplayFor(m => filiaal.Waarde) @Html.DisplayFor(m => filiaal.Eigenaar)</li>
     }
 </ul>
