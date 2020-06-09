@@ -1,0 +1,9 @@
+﻿@model Filiaal
+@{
+    ViewBag.Title = "Verwijderen";
+}
+
+<h2>@Model.Naam verwijderen?</h2>
+<form method="post" action="~/Home/Delete/@Model.ID">
+    <input type="submit" value="Delete" />
+</form>

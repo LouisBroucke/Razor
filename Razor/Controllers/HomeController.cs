@@ -5,17 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Razor.Models;
+using Razor.Services;
 
 namespace Razor.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private FiliaalService _filiaalService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(FiliaalService filiaalService)
         {
-            _logger = logger;
+            _filiaalService = filiaalService;
         }
 
         public IActionResult Index()
@@ -76,22 +78,35 @@ namespace Razor.Controllers
                 Gemeente = "Brussel" 
                 };
             ViewBag.deHoofdzetel = deHoofdzetel;
+            
+            return View(_filiaalService.FindAll());
+        }
 
-            List<Filiaal> deFilialen = new List<Filiaal>()
-                 {
-                 new Filiaal { ID = 1, Naam = "Antwerpen",
-                 Gebouwd = new DateTime(2003, 1, 1), Waarde = 2000000, Eigenaar = Eigenaar.Eigendom },
-                 new Filiaal { ID = 2, Naam = "Wondelgem",
-                 Gebouwd = new DateTime(1979, 1, 1), Waarde = 2500000, Eigenaar = Eigenaar.Gehuurd },
-                 new Filiaal { ID = 3, Naam = "Haasrode",
-                 Gebouwd = new DateTime(1976, 1, 1), Waarde = 1000000, Eigenaar = Eigenaar.Gehuurd },
-                 new Filiaal { ID = 4, Naam = "Wevelgem",
-                 Gebouwd = new DateTime(1981, 1, 1), Waarde = 1600000, Eigenaar = Eigenaar.Eigendom },
-                 new Filiaal { ID = 5, Naam = "Genk",
-                 Gebouwd = new DateTime(1990, 1, 1), Waarde = 4000000, Eigenaar = Eigenaar.Gehuurd }
-                 };
+        public IActionResult Verwijderen(int id)
+        {
+            var filiaal = _filiaalService.Read(id);
 
-            return View(deFilialen);
+            return View(filiaal);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var filiaal = _filiaalService.Read(id);
+            this.TempData["filiaal"] = JsonConvert.SerializeObject(filiaal);
+
+            _filiaalService.Delete(id);
+            return RedirectToAction("Verwijderd");
+        }
+
+        public IActionResult Verwijderd()
+        {
+            var verwijderdFiliaal = (string)this.TempData["filiaal"];
+
+            if (verwijderdFiliaal != null)
+                return View(JsonConvert.DeserializeObject<Filiaal>(verwijderdFiliaal));
+            else
+                return RedirectToAction("Vestigingen");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
