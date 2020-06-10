@@ -54,8 +54,26 @@ namespace Razor.Controllers
             else
             {
                 return View(opslagViewModel);
+            }            
+        }
+
+        [HttpGet]
+        public IActionResult VanTotWedde()
+        {
+            var form = new VanTotWeddeViewModel();
+            return View(form);
+        }
+
+        [HttpGet]
+        public IActionResult VanTotWeddeResultaat(VanTotWeddeViewModel form)
+        {
+            if (this.ModelState.IsValid)
+            {
+                form.Personen = _persoonService.VanTotWedde(
+                    form.VanWedde.Value, form.TotWedde.Value);
             }
-            
+
+            return View("VanTotWedde", form);
         }
     }
 }
