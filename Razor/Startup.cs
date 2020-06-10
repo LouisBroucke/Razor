@@ -23,6 +23,8 @@ namespace Razor
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<Services.FiliaalService>();
+            services.AddSingleton<Services.PersoonService>();
+            services.AddSession();
             services.AddControllersWithViews();
         }
 

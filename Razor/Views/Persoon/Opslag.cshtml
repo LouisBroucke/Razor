@@ -1,0 +1,18 @@
+﻿@model OpslagViewModel
+@{
+    ViewData["Title"] = "Opslag";
+}
+<h2>Opslag</h2>
+<form asp-action="Opslag" method="post" asp-antiforgery="true">
+    <label asp-for="VanWedde"></label>
+    <span asp-validation-for="VanWedde">*</span>
+    <input asp-for="VanWedde" />
+    <label asp-for="TotWedde"></label>
+    <span asp-validation-for="TotWedde">*</span>
+    <input asp-for="TotWedde" />
+    <label asp-for="Percentage"></label>
+    <span asp-validation-for="Percentage">*</span>
+    <input asp-for="Percentage" />
+    <input type="submit" value="Weddeverhoging doorvoeren" />
+    <div asp-validation-summary="All">Er zijn validatiefouten</div>
+</form>

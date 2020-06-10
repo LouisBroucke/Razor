@@ -1,0 +1,8 @@
+﻿@model Persoon
+@{
+    ViewBag.Title = Model.Voornaam + " " + Model.Familienaam + " verwijderen?";
+}
+<h2>@Model.Voornaam @Model.Familienaam verwijderen?</h2>
+<form method="post" asp-action="Verwijderen" asp-route-id="@Model.ID">
+    <input type="submit" value="Verwijderen" />
+</form>
