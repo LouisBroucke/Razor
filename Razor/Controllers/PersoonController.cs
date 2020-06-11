@@ -69,11 +69,60 @@ namespace Razor.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                form.Personen = _persoonService.VanTotWedde(
+                var lijst = _persoonService.VanTotWedde(
                     form.VanWedde.Value, form.TotWedde.Value);
+                if (lijst.Count <= 3)
+                {
+                    form.Personen = lijst;
+                }
+                else
+                    this.ModelState.AddModelError("", "Te veel resultaten");
             }
 
             return View("VanTotWedde", form);
+        }
+
+        [HttpGet]
+        public IActionResult Toevoegen()
+        {
+            var persoon = new Persoon();
+            persoon.Score = 1;
+
+            return View(persoon);
+        }
+
+        [HttpPost]
+        public IActionResult Toevoegen(Persoon p)
+        {
+            if (this.ModelState.IsValid)
+            {
+                _persoonService.Add(p);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(p);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EditForm(int id)
+        {
+            return View(_persoonService.FindByID(id));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Persoon p)
+        {
+            if (this.ModelState.IsValid)
+            {
+                _persoonService.Update(p);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("EditForm", p);
+            }
         }
     }
 }

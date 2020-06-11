@@ -60,5 +60,16 @@ namespace Razor.Services
                     where persoon.Wedde >= van && persoon.Wedde <= tot
                     select persoon).ToList();
         }
+
+        public void Add(Persoon p)
+        {
+            p.ID = personen.Keys.Max() + 1;
+            personen.Add(p.ID, p);
+        }
+
+        public void Update(Persoon p)
+        {
+            personen[p.ID] = p;
+        }
     }
 }

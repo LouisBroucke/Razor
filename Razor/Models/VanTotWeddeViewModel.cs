@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Razor.Models
 {
-    public class VanTotWeddeViewModel
+    public class VanTotWeddeViewModel : IValidatableObject
     {
         [Display(Name ="Van wedde:")]
         [Required(ErrorMessage ="Van wedde is verplicht")]
@@ -17,5 +17,15 @@ namespace Razor.Models
         public decimal? TotWedde { get; set; }
 
         public List<Persoon> Personen { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var validationResults = new List<ValidationResult>();
+            if (VanWedde > TotWedde)
+            {
+                validationResults.Add(new ValidationResult("VanWedde is groter dan TotWedde"));
+            }
+            return validationResults;
+        }
     }
 }
